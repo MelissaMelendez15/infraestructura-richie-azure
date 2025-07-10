@@ -1,0 +1,1 @@
+# Infraestructura Richie en Azure
