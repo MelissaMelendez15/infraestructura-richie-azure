@@ -25,6 +25,7 @@ resource "azurerm_public_ip" "public_ip_richie" {
 
 # Creación de la Interfaz de red
 # Es el móden que conecta la VM a la red y le asigna la IP (pública y privada)
+
 resource "azurerm_network_interface" "nic_richie" {
     name = "nic_richie"
     location = var.location
