@@ -1,0 +1,8 @@
+- name: Despliegue de contenedor Nginx desde ACR
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true
+  roles:
+   - nginx
+ 

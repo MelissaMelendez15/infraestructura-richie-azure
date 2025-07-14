@@ -1,0 +1,22 @@
+- name: Login en ACR con Podman
+  containers.podman.podman_login:
+    registry: acrrichiemeli.azurecr.io
+    username: "{{ lookup('env', 'ACR_USER')}}"
+    password: "{{ lookup('env', 'ACR_PASS')}}"
+
+- name: Eliminar contenedor previo si existe
+  containers.podman.podman_container:
+    name: nginx-caso2
+    state: absent
+  
+- name: Desplegar contenedor desde imagen en ACR
+  containers.podman.podman_container:
+    name: nginx-caso2
+    image: acrrichiemeli.azurecr.io/nginx/casopractico2:latest
+    image_strict: true
+    state: started
+    restart_policy: always
+    detach: true
+    ports:
+     - "8080:80"
+    
