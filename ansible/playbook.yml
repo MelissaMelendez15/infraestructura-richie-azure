@@ -3,6 +3,9 @@
   connection: local
   gather_facts: false
   become: true
+  vars_files:
+   - vault_vars.yml
   roles:
    - nginx
+  
  

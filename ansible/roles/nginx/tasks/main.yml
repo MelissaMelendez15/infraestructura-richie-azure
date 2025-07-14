@@ -1,8 +1,8 @@
 - name: Login en ACR con Podman
   containers.podman.podman_login:
     registry: acrrichiemeli.azurecr.io
-    username: "{{ lookup('env', 'ACR_USER')}}"
-    password: "{{ lookup('env', 'ACR_PASS')}}"
+    username: "{{ ACR_USER }}"
+    password: "{{ ACR_PASS }}"
 
 - name: Eliminar contenedor previo si existe
   containers.podman.podman_container:
