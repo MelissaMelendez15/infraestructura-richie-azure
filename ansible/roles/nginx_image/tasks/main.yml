@@ -1,0 +1,15 @@
+# Se crea autenticación en el ACR para permitir pull, push y construcción de imagenes
+- name: Login en ACR con Podman
+  containers.podman.podman_login:
+    registry: acrrichiemeli.azurecr.io
+    username: "{{ ACR_USER }}"
+    password: "{{ ACR_PASS }}"
+
+# Para construir imagen local desde Dockerfile personalizado (sin TLS)
+- name: Construir imagen personalizada de NGINX con TLS
+  containers.podman.podman_image:
+    name: acrrichiemeli.azurecr.io/nginx/casopractico2
+    tag: latest
+    path: "{{ role_path }}/files"
+    push: true
+    state: present

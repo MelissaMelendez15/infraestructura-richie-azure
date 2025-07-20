@@ -2,5 +2,6 @@
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
+vault_vars.yml
 *.log
 *.retry

@@ -1,14 +1,17 @@
+# Se crea autenticación en el ACR para obtener la imagen a desplegar
 - name: Login en ACR con Podman
   containers.podman.podman_login:
     registry: acrrichiemeli.azurecr.io
     username: "{{ ACR_USER }}"
     password: "{{ ACR_PASS }}"
 
+# Eliminación de contenedor previo para evitar conflictos
 - name: Eliminar contenedor previo si existe
   containers.podman.podman_container:
     name: nginx-caso2
     state: absent
   
+# Despliegue del contenedor a partir de la imagen subida al ACR
 - name: Desplegar contenedor desde imagen en ACR
   containers.podman.podman_container:
     name: nginx-caso2

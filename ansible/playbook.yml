@@ -1,3 +1,17 @@
+# Rol que crea imagen personalizada de NGINX y sube al ACR
+- name: Crear imagen personalizada y subir al ACR
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true
+  vars_files:
+   - vault_vars.yml
+  roles:
+   - nginx_image
+  tags: 
+   - crear_imagen
+
+# Rol que despliega la imagen subida desde ACR a un contenedor Podman
 - name: Despliegue de contenedor Nginx desde ACR
   hosts: localhost
   connection: local
@@ -7,5 +21,7 @@
    - vault_vars.yml
   roles:
    - nginx
+  tags: 
+   - desplegar
   
  
