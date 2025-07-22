@@ -1,0 +1,44 @@
+# Login en ACR
+- name: Login en ACR
+  containers.podman.podman_login:
+    registry: "{{ acr_login }}"
+    username: "{{ ACR_USER }}"
+    password: "{{ ACR_PASS }}"
+
+# Pull imágenes desde DockerHub
+- name: Pull imagen frontend desde DockerHub
+  containers.podman.podman_image:
+    name: "{{ dockerhub_frontend }}"
+    state: present
+
+- name: Pull imagen backend desde DockerHub
+  containers.podman.podman_image:
+    name: "{{ dockerhub_backend }}"
+    state: present
+
+# Retag imágenes para ACR
+- name: Retag frontend para ACR
+  containers.podman.podman_tag:
+    image: "{{ dockerhub_frontend }}"
+    target_names:
+      - "{{ acr_frontend }}:latest"
+
+- name: Retag backend para ACR
+  containers.podman.podman_tag:
+    image: "{{ dockerhub_backend }}"
+    target_names:
+      - "{{ acr_backend }}:latest"
+
+# Push al ACR
+- name: Push frontend a ACR
+  containers.podman.podman_image:
+    name: "{{ acr_frontend }}"
+    push: true
+    state: present
+
+- name: Push backend a ACR
+  containers.podman.podman_image:
+    name: "{{ acr_backend }}"
+    push: true
+    state: present    
+  

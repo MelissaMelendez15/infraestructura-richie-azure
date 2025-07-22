@@ -6,7 +6,7 @@
     password: "{{ ACR_PASS }}"
 
 # Para construir imagen local desde Dockerfile personalizado (sin TLS)
-- name: Construir imagen personalizada de NGINX con TLS
+- name: Construir imagen personalizada de NGINX sin TLS
   containers.podman.podman_image:
     name: acrrichiemeli.azurecr.io/nginx/casopractico2
     tag: latest

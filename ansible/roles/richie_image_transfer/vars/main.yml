@@ -1,0 +1,8 @@
+# Origen en DockerHub
+dockerhub_frontend: "melissa15/frontend-casopractico2:latest"
+dockerhub_backend: "melissa15/backend-casopractico2:latest"
+
+# ACR destino
+acr_login: "acrrichiemeli.azurecr.io"
+acr_frontend: "acrrichiemeli.azurecr.io/frontend/casopractico2"
+acr_backend: "acrrichiemeli.azurecr.io/backend/casopractico2"

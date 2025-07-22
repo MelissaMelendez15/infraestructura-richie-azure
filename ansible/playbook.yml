@@ -24,4 +24,16 @@
   tags: 
    - desplegar
   
+# Rol que sube imágenes Richie a Docker a ACR
+- name: Subir imágenes Richie a DockerHub a ACR
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+   - vault_vars.yml
+   - roles/richie_image_transfer/vars/main.yml
+  roles:
+   - richie_image_transfer
+  tags: 
+   - subir_imagenes
  
