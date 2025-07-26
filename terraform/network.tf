@@ -40,7 +40,6 @@ resource "azurerm_network_interface" "nic_richie" {
 }
 
 # Se crea el NSG con la regla de SSH(puerto 22)
-
 resource "azurerm_network_security_group" "nsg_richie" {
     name = "nsg_richie"
     location = var.location

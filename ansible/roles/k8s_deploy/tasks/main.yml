@@ -1,0 +1,28 @@
+- name: Aplicar todos los manifiestos Kubernetes en orden (sin Ingress)
+  kubernetes.core.k8s:
+    kubeconfig: ~/.kube/config
+    src: "{{ item }}"
+    state: present
+  loop:
+    # 1. Namespace
+    - ../k8s/namespace.yaml
+    
+    # 2. Secret y ConfigMap para MongoDB
+    - ../k8s/mongodb-secret.yaml
+    - ../k8s/mongo-configmap.yaml
+
+    # 3. Volumen persistente para MongoDB
+    - ../k8s/mongo-pvc.yaml
+
+    # 4. Despliegue y servicio de MongoDB
+    - ../k8s/mongodb-deployment.yaml
+    - ../k8s/mongodb-service.yaml
+
+    # 5. Backend (despliegue y servicio)
+    - ../k8s/backend-deployment.yaml
+    - ../k8s/backend-service.yaml
+
+    # 6. Frontend (despliegue y servicio)
+    - ../k8s/frontend-deployment.yaml
+    - ../k8s/frontend-service.yaml
+

@@ -1,0 +1,41 @@
+.
+├── ansible
+│   ├── ansible.cfg
+│   ├── deploy.sh
+│   ├── hosts
+│   ├── inventory_azure
+│   ├── playbook.yml
+│   ├── roles
+│   │   ├── k8s_deploy
+│   │   ├── mongodb
+│   │   ├── nginx
+│   │   ├── nginx_image
+│   │   └── richie_image_transfer
+│   └── vault_vars.yml
+├── arbol_directorios.txt
+├── id_rsa.pub
+├── k8s
+│   ├── backend-deployment.yaml
+│   ├── backend-service.yaml
+│   ├── frontend-deployment.yaml
+│   ├── frontend-service.yaml
+│   ├── ingress.yaml
+│   ├── mongo-configmap.yaml
+│   ├── mongodb-deployment.yaml
+│   ├── mongodb-secret.yaml
+│   ├── mongodb-service.yaml
+│   ├── mongo-pvc.yaml
+│   └── namespace.yaml
+├── README.md
+└── terraform
+    ├── id_rsa.pub
+    ├── main.tf
+    ├── network.tf
+    ├── outputs.tf
+    ├── recursos.tf
+    ├── terraform.tfstate
+    ├── terraform.tfstate.backup
+    ├── terraform.tfvars
+    └── variables.tf
+
+10 directories, 29 files

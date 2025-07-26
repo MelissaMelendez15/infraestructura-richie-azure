@@ -50,5 +50,36 @@ resource "azurerm_linux_virtual_machine" "vm_richie" {
    computer_name = var.vm_name
 }
 
+# Rol para que AKS acceda al acr_name
+resource "azurerm_role_assignment" "aks_acr_pull" {
+    scope = azurerm_container_registry.acr_richie.id
+    role_definition_name = "AcrPull"
+    principal_id = azurerm_kubernetes_cluster.aks_richie.kubelet_identity[0].object_id
+}
 
+#Clúster AKS
+resource "azurerm_kubernetes_cluster" "aks_richie" {
+    name = "aks_richie"
+    location = azurerm_resource_group.rg_richie.location
+    resource_group_name = azurerm_resource_group.rg_richie.name
+    dns_prefix = "richie-aks"
+
+    default_node_pool {
+        name = "default"
+        node_count = 1
+        vm_size = "Standard_B2s"
+    }
+
+    identity {
+        type = "SystemAssigned"
+    }
+
+    network_profile {
+        network_plugin = "azure"
+    }
+
+    tags = {
+        environment = "dev"
+    }
+}
 

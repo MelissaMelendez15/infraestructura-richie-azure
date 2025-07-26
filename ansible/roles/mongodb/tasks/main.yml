@@ -1,0 +1,22 @@
+- name: Crear carpeta de datos persistentes
+  file:
+    path: "{{ mongo_data_path }}"
+    state: directory
+    owner: "{{ mongo_user }}"
+    group: "{{ mongo_user }}"
+    mode: 0755
+
+- name: Ejecutar contenedor de MongoDB
+  containers.podman.podman_container:
+    name: mongo-richie
+    image: docker.io/library/mongo:6.0
+    state: started
+    detach: true
+    restart_policy: always
+    volume:
+      - "{{ mongo_data_path }}:/data/db"
+    publish:
+      - "27017:27017"
+
+
+

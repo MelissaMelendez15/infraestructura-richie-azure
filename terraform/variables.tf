@@ -40,3 +40,10 @@ variable "ssh_public_key" {
     description = "Clave pública ssh para acceder a la VM"
     type = string
 }
+
+# Variable para AKS
+variable "aks_name" {
+    type = string
+    description = "Nombre del clúster AKS"
+    default = "aks-richie"
+}

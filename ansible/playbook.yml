@@ -16,7 +16,7 @@
   hosts: localhost
   connection: local
   gather_facts: false
-  become: true
+  become: true  
   vars_files:
    - vault_vars.yml
   roles:
@@ -37,3 +37,101 @@
   tags: 
    - subir_imagenes
  
+ # Rol que despliega Richie localmente con Podman
+- name: Desplegar MongoDB
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true 
+  vars_files:
+    - vault_vars.yml
+  roles:
+    - mongodb
+  tags:
+    - mongo
+
+#BACKEND
+- name: Desplegar Backend
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true  # o quitás esto si usás podman rootless
+  vars_files:
+    - vault_vars.yml
+  tags:
+    - backend
+
+  tasks:
+    - name: Login en ACR con Podman
+      containers.podman.podman_login:
+        registry: "{{ acr_registry }}"
+        username: "{{ ACR_USER }}"
+        password: "{{ ACR_PASS }}"
+
+    - name: Eliminar contenedor backend si existe
+      containers.podman.podman_container:
+        name: backend
+        state: absent
+
+    - name: Ejecutar contenedor del backend
+      containers.podman.podman_container:
+        name: backend
+        image: "{{ acr_registry }}/backend/casopractico2:latest"
+        image_strict: true
+        pull: always
+        state: started
+        detach: true
+        restart_policy: always
+        ports:
+          - "5000:5000"
+        env:
+          MONGO_URL: mongodb://mongo-richie:27017/richiesky
+        network: podman
+
+#FRONTEND
+- name: Desplegar Frontend
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true
+  vars_files:
+    - vault_vars.yml
+  tags:
+    - frontend
+
+  tasks:
+    - name: Login en ACR con Podman
+      containers.podman.podman_login:
+        registry: "{{ acr_registry }}"
+        username: "{{ ACR_USER }}"
+        password: "{{ ACR_PASS }}"
+
+    - name: Eliminar contenedor frontend si existe
+      containers.podman.podman_container:
+        name: frontend
+        state: absent
+
+    - name: Ejecutar contenedor del frontend
+      containers.podman.podman_container:
+        name: frontend
+        image: "{{ acr_registry }}/frontend/casopractico2:latest"
+        image_strict: true
+        pull: always
+        state: started
+        detach: true
+        restart_policy: always
+        ports:
+          - "80:80"
+        env:
+          MONGO_URL: mongodb://mongo-richie:27017/richiesky
+        network: podman
+
+# Despliegue Richie en Kubernetes AKS
+- name: Desplegar Richie en AKS con Ansible
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+   - k8s_deploy
+  tags:
+   - k8s

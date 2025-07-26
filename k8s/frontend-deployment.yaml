@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: frontend
+ namespace: richie
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+   metadata:
+    labels:
+      app: frontend
+   spec:
+    containers:
+    - name: frontend
+      image: acrrichiemeli.azurecr.io/frontend-casopractico2:latest
+      ports:
+      - containerPort: 80
+    imagePullSecrets:
+    - name: acr-auth
